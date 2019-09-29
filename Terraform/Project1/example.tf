@@ -3,12 +3,27 @@ provider "aws" {
   region     = var.region
 }
 
-resource "aws_instance" "example" {
-  ami           = var.amis[var.region]
-  instance_type = "t2.micro"
+
+resource "aws_instance" "jenkins" {
+  
+  instances = module.jenkins.instance_ids
+}
+
+resource "aws_instance" "carts" {
+  
+  instances = module.carts.instance_ids
+}
+
+resource "aws_instance" "database" {
+  
+  instances = module.Database.instance_ids
+}
+
 
 provisioner "local-exec" {
-    command = "echo ${aws_instance.example.public_ip} > ip_address.txt"
+    command = "echo ${aws_instance.jenkins.public_ip} > CI_Server_ip_address.txt"
+    command = "echo ${aws_instance.carts.public_ip} > App_server_ip_address.txt"
+    command = "echo ${aws_instance.database.public_ip} > Database_server_ip_address.txt"
   }
 }
 
