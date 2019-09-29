@@ -1,0 +1,1 @@
+scp -i "/home/ubuntu/.ssh/EC2_Linux_CI_server" /var/lib/jenkins/workspace/carts/target/carts.jar ubuntu@ec2-34-213-180-242.us-west-2.compute.amazonaws.com:/home/ubuntu/carts/

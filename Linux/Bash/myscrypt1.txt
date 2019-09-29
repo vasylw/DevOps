@@ -1,0 +1,6 @@
+# mydir
+#!/bin/bash
+> newfile.txt
+mkdir mydir
+HomeDir=$PWD
+cp $HomeDir/* $HomeDir/mydir

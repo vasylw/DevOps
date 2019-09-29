@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Check The Maldives
+MONEY=5
+if [MONEY -gt 2000]
+then
+echo "Go to maldives and have fun there!!"
+else
+echo "Stay here and study bash!!"
+fi
