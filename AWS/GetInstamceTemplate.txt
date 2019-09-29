@@ -1,0 +1,1 @@
+aws ec2 get-launch-template-data --instance-id i-03ee40d5c442b2ff1 > launch-data.json
