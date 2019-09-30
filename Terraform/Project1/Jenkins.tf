@@ -11,7 +11,7 @@ resource "aws_launch_template" "Jenkins" {
     }
         
     NetworkInterfaces {
-            AssociatePublicIpAddress = false
+            AssociatePublicIpAddress = true
             DeleteOnTermination = true
             Description = "Primary network interface"
             Groups = "sg-083c31775b1fa65f0"
@@ -19,25 +19,25 @@ resource "aws_launch_template" "Jenkins" {
              PrivateIpAddresses { Primary = true }
             SubnetId = "subnet-214a766a"
     }
-  ImageId = var.amis[var.region]
-  InstanceType = "t2.micro"
-  KeyName = "EC2_Linux_CI_Server"
-  Monitoring  { Enabled = false }
-   Placement { AvailabilityZone = var.region }
-  DisableApiTermination = true
-  InstanceInitiatedShutdownBehavior = "stop"
-   TagSpecifications {
-            ResourceType = "instance"
-                Tags {
-                    Key = "Name"
-                    Value = "Jenkins"
-                    }
-            }
-   CreditSpecification { CpuCredits = "standard" }
-   CpuOptions {
-        CoreCount = 1
-        ThreadsPerCore = 1
+    ImageId = var.amis[var.region]
+    InstanceType = "t2.micro"
+    KeyName = "EC2_Linux_CI_Server"
+        Monitoring  { Enabled = false }
+        Placement { AvailabilityZone = var.region }
+    DisableApiTermination = true
+    InstanceInitiatedShutdownBehavior = "stop"
+    TagSpecifications {
+        ResourceType = "instance"
+            Tags {
+                Key = "Name"
+                Value = "Jenkins"
+                }
+    }
+        CreditSpecification { CpuCredits = "standard" }
+        CpuOptions {
+            CoreCount = 1
+            ThreadsPerCore = 1
         }
-   CapacityReservationSpecification { CapacityReservationPreference = "open" }
-   HibernationOptions { Configured = false }
+        CapacityReservationSpecification { CapacityReservationPreference = "open" }
+        HibernationOptions { Configured = false }
 }
