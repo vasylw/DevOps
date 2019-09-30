@@ -1,50 +1,49 @@
 # Cloud provider setting
 provider "aws" {
   profile    = "default"
-  region     = var.region
+  region     = variables.region
 }
 
 # Create a AWS instance template for CI server, using module in *.tf file
 module "jenkins" {
-  source      = "Jenkins.tf"
-  num_servers = "1"
-  instances = module.jenkins.instance_ids
+  source      = "./Jenkins"
 }
 
 # Create a AWS instance template for application server, using module in *.tf file
 module "carts" {
-  source      = "Appserver.tf"
-  num_servers = "1"
-  instances = module.carts.instance_ids
+  source      = "./Appserver"
 }
 
 # Create a AWS instance template for database server, using module in *.tf file
 module "database" {
-  source      = "Database.tf"
-  num_servers = "1"
-  instances = module.database.instance_ids
+  source      = "./Database"
 }
 
 
 # Launch instances from templates
-launch_template = {
-      id      = "${aws_launch_template.Jenkins.id}"
-      version = "$$Latest"
-      id      = "${aws_launch_template.Database.id}"
-      version = "$$Latest"
-      id      = "${aws_launch_template.Carts.id}"
-      version = "$$Latest"
-}
-
-
-
-provisioner "local-exec" {
+resource "aws_launch_configuration" "Jenkins" {
+  name          = "Jenkins"
+  image_id      = "${aws_launch_template.Jenkins.id}"
+  provisioner  "local-exec" {
     command = "echo ${aws_instance.Jenkins.public_ip} > CI_Server_Pub_ip_address.txt"
 }
-
-provisioner "local-exec" {
-    command = "echo ${aws_instance.Carts.public_ip} > App_Server_Pub_ip_address.txt"
 }
+
+resource "aws_launch_configuration" "Carts" {
+  name          = "Carts"
+  image_id      = "${aws_launch_template.Carts.id}"
+}
+
+resource "aws_launch_configuration" "Database" {
+  name          = "Database"
+  image_id      = "${aws_launch_template.Database.id}"
+  provisioner "local-exec" {
+    command = "echo ${aws_instance.Carts.public_ip} > App_Server_Pub_ip_address.txt"
+  }
+}
+
+
+
 
 
 resource "aws_eip" "ip" {
