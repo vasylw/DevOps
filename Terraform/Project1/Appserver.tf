@@ -1,3 +1,5 @@
+
+
 {
     "LaunchTemplateData": {
         "EbsOptimized": false,
@@ -33,7 +35,7 @@
                 "SubnetId": "subnet-214a766a"
             }
         ],
-        "ImageId": "ami-06f2f779464715dc5",
+        "ImageId": var.amis[var.region],
         "InstanceType": "t2.micro",
         "KeyName": "EC2_Linux_CI_Server",
         "Monitoring": {
@@ -52,7 +54,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Database"
+                        "Value": "Appserver"
                     }
                 ]
             }

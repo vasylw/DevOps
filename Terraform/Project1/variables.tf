@@ -1,14 +1,15 @@
 variable "region" {
-  oregon = "us-west-2"
-  virginia = "us-east-1"
-  ohio =   "us-east-2"
-  california = "us-west-1"
-  canada = "ca-central-1"
-  frankfurt =	"eu-central-1"
-  ireland = "eu-west-1"
-
+  type = "map"  
+  default = { 
+  "oregon" = "us-west-2"
+  "virginia" = "us-east-1"
+  "ohio" = "us-east-2"
+  "california" = "us-west-1"
+  "canada" = "ca-central-1"
+  "frankfurt" =	"eu-central-1"
+  "ireland" = "eu-west-1"
   }
-
+}
 variable "amis" {
   type = "map"
   default = {

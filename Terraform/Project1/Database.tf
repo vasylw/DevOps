@@ -1,3 +1,4 @@
+
 {
     "LaunchTemplateData": {
         "EbsOptimized": false,
@@ -7,7 +8,7 @@
                 "Ebs": {
                     "Encrypted": false,
                     "DeleteOnTermination": true,
-                    "SnapshotId": "snap-01d8a2f723be8f0c0",
+                    "SnapshotId": "",
                     "VolumeSize": 15,
                     "VolumeType": "standard"
                 }
@@ -33,7 +34,7 @@
                 "SubnetId": "subnet-214a766a"
             }
         ],
-        "ImageId": "ami-06f2f779464715dc5",
+        "ImageId": var.amis[var.region],
         "InstanceType": "t2.micro",
         "KeyName": "EC2_Linux_CI_Server",
         "Monitoring": {
@@ -52,7 +53,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Appserver"
+                        "Value": "Database"
                     }
                 ]
             }

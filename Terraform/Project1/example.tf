@@ -1,22 +1,24 @@
 provider "aws" {
   profile    = "default"
-  region     = var.region[frankfurt]
+  region     = var.region
 }
 
-
-resource "aws_instance" "jenkins" {
-  
+module "jenkins" {
+  source      = "Jenkins.tf"
+  num_servers = "1"
   instances = module.jenkins.instance_ids
 }
 
-resource "aws_instance" "carts" {
-  
+module "carts" {
+  source      = "Appserver.tf"
+  num_servers = "1"
   instances = module.carts.instance_ids
 }
 
-resource "aws_instance" "database" {
-  
-  instances = module.Database.instance_ids
+module "database" {
+  source      = "Database.tf"
+  num_servers = "1"
+  instances = module.database.instance_ids
 }
 
 
@@ -25,7 +27,7 @@ provisioner "local-exec" {
     command = "echo ${aws_instance.carts.public_ip} > App_server_ip_address.txt"
     command = "echo ${aws_instance.database.public_ip} > Database_server_ip_address.txt"
   }
-}
+
 
 resource "aws_eip" "ip" {
     vpc = true
