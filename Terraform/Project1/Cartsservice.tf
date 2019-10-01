@@ -10,20 +10,20 @@
 
 provider "aws" {
   profile    = "default"
-  region     = "${var.region["frankfurt"]}"
+  region     = var.region
 }
 
-# Create a AWS instance template for CI server, using module in *.tf file
+# Create a AWS instance template for CI server, using module
 module "jenkins" {
   source      = "./Jenkins"
 }
 
-# Create a AWS instance template for application server, using module in *.tf file
+# Create a AWS instance template for application server, using module
 module "carts" {
   source      = "./Appserver"
 }
 
-# Create a AWS instance template for database server, using module in *.tf file
+# Create a AWS instance template for database server, using module
 module "database" {
   source      = "./Database"
 }
@@ -41,12 +41,13 @@ resource "aws_launch_configuration" "Jenkins" {
 resource "aws_launch_configuration" "Carts" {
   name          = "Carts"
   image_id      = "${aws_launch_template.Carts}"
+  provisioner "local-exec" {
+    command = "echo ${aws_instance.Carts.public_ip} > App_Server_Pub_ip_address.txt"
+  }
 }
 
 resource "aws_launch_configuration" "Database" {
   name          = "Database"
   image_id      = "${aws_launch_template.Database}"
-  provisioner "local-exec" {
-    command = "echo ${aws_instance.Carts.public_ip} > App_Server_Pub_ip_address.txt"
-  }
 }
+
