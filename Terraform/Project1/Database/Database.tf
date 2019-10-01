@@ -1,43 +1,60 @@
-resource "aws_launch_template" "Database" {
-  name = "Database"
+variable "region" {
+    type = "map"
+}
+
+variable "amis" {
+  type = "map"
+}
+
+
+resource "aws_launch_template" "database" {
+  name = "database"
     
-    BlockDeviceMappings {
-            DeviceName = "/dev/sda1"
-             Ebs {
-                    Encrypted = false
-                    DeleteOnTermination = true
-                    VolumeSize = 15
+    block_device_mappings {
+            device_name = "/dev/sda1"
+             ebs {
+                    encrypted = false
+                    delete_on_termination = true
+                    volumeSize = 15
                 }
     }
         
-    NetworkInterfaces {
-            AssociatePublicIpAddress = false
-            DeleteOnTermination = true
-            Description = "Primary network interface"
-            Groups = "sg-083c31775b1fa65f0"
-            InterfaceType = "interface"
-             PrivateIpAddresses { Primary = true }
-            SubnetId = "subnet-214a766a"
+    network_interfaces {
+            associate_public_ip_address = true
+            delete_on_termination = true
+            description = "Primary network interface"
+            groups = "sg-083c31775b1fa65f0"
+            interface_type = "interface"
+             private_ip_addresses { primary = true }
+            subnet_id = "subnet-214a766a"
     }
-    ImageId = var.amis[var.region]
-    InstanceType = "t2.micro"
-    KeyName = "EC2_Linux_CI_Server"
-        Monitoring  { Enabled = false }
-        Placement { AvailabilityZone = var.region }
-    DisableApiTermination = true
-    InstanceInitiatedShutdownBehavior = "stop"
-    TagSpecifications {
-        ResourceType = "instance"
-            Tags {
-                Key = "Name"
-                Value = "Database"
+
+    image_id = var.amis[var.region]
+
+    key_name = "EC2_Linux_CI_Server"
+        monitoring  { enabled = false }
+        placement { availability_zone = var.region }
+
+    disable_api_termination = true
+
+    instance_initiated_shutdown_behavior = "stop"
+
+    tag_specifications {
+        resource_type = "instance"
+            tags {
+                key = "name"
+                value = "database"
                 }
     }
-        CreditSpecification { CpuCredits = "standard" }
-        CpuOptions {
-            CoreCount = 1
-            ThreadsPerCore = 1
-        }
-        CapacityReservationSpecification { CapacityReservationPreference = "open" }
-        HibernationOptions { Configured = false }
+
+    credit_specification { cpu_credits = "standard" }
+    
+    cpu_options {
+            core_count = 1
+            threads_per_core = 1
+    }
+    
+    capacity_reservation_specification { capacity_reservation_preference = "open" }
+    
+    hibernation_options { configured = false }
 }
