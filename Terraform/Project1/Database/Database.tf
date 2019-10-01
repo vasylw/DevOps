@@ -1,15 +1,5 @@
-variable "region" {
-    type = "map"
-}
-
-variable "amis" {
-  type = "map"
-}
-
-
-resource "aws_launch_template" "database" {
-  name = "database"
-    
+resource "aws_launch_template" var.instance_name {
+   
     block_device_mappings {
             device_name = "/dev/sda1"
              ebs {
@@ -29,11 +19,13 @@ resource "aws_launch_template" "database" {
             subnet_id = "subnet-214a766a"
     }
 
-    image_id = var.amis[var.region]
+    image_id = var.image_id
 
     key_name = "EC2_Linux_CI_Server"
-        monitoring  { enabled = false }
-        placement { availability_zone = var.region }
+
+    monitoring  { enabled = false }
+
+    placement { availability_zone = var.availability_zone }
 
     disable_api_termination = true
 
@@ -43,7 +35,7 @@ resource "aws_launch_template" "database" {
         resource_type = "instance"
             tags {
                 key = "name"
-                value = "database"
+                value = var.instance_name
                 }
     }
 

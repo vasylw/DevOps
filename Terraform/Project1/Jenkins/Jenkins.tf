@@ -1,14 +1,5 @@
-variable "region" {
-    type = "map"
-}
-
-variable "amis" {
-  type = "map"
-}
-
-resource "aws_launch_template" "jenkins" {
-  name = "jenkins"
-    
+resource "aws_launch_template" var.instance_name {
+   
     block_device_mappings {
             device_name = "/dev/sda1"
              ebs {
@@ -28,11 +19,13 @@ resource "aws_launch_template" "jenkins" {
             subnet_id = "subnet-214a766a"
     }
 
-    image_id = var.amis[var.region]
+    image_id = var.image_id
 
     key_name = "EC2_Linux_CI_Server"
-        monitoring  { enabled = false }
-        placement { availability_zone = var.region }
+
+    monitoring  { enabled = false }
+
+    placement { availability_zone = var.availability_zone }
 
     disable_api_termination = true
 
@@ -42,7 +35,7 @@ resource "aws_launch_template" "jenkins" {
         resource_type = "instance"
             tags {
                 key = "name"
-                value = "jenkins"
+                value = var.instance_name
                 }
     }
 

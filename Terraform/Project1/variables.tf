@@ -1,4 +1,20 @@
 
+# Available regions for instances
+# "oregon" = "us-west-2"
+#  "virginia" = "us-east-1"
+#  "ohio" = "us-east-2"
+#  "california" = "us-west-1"
+#  "canada" = "ca-central-1"
+#  "frankfurt" =	"eu-central-1"
+#  "ireland" = "eu-west-1"
+
+variable "uf_region" {
+  type = "string"
+  default = "frankfurt"
+}
+
+
+
 variable "region" {
   type = "map"  
   default = { 
