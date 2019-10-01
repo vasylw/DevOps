@@ -1,11 +1,12 @@
-resource "aws_launch_template" var.instance_name {
-   
+
+resource "aws_launch_template"  "instance" {
+    name = "${var.instance_name}"
     block_device_mappings {
             device_name = "/dev/sda1"
              ebs {
                     encrypted = false
                     delete_on_termination = true
-                    volumeSize = 15
+                    volume_size = 15
                 }
     }
         
@@ -13,9 +14,6 @@ resource "aws_launch_template" var.instance_name {
             associate_public_ip_address = true
             delete_on_termination = true
             description = "Primary network interface"
-            groups = "sg-083c31775b1fa65f0"
-            interface_type = "interface"
-             private_ip_addresses { primary = true }
             subnet_id = "subnet-214a766a"
     }
 
@@ -30,23 +28,6 @@ resource "aws_launch_template" var.instance_name {
     disable_api_termination = true
 
     instance_initiated_shutdown_behavior = "stop"
-
-    tag_specifications {
-        resource_type = "instance"
-            tags {
-                key = "name"
-                value = var.instance_name
-                }
-    }
-
-    credit_specification { cpu_credits = "standard" }
+   
     
-    cpu_options {
-            core_count = 1
-            threads_per_core = 1
-    }
-    
-    capacity_reservation_specification { capacity_reservation_preference = "open" }
-    
-    hibernation_options { configured = false }
 }

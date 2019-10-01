@@ -15,15 +15,17 @@ module "jenkins" {
 # Create a AWS instance template for application server, using module
 module "carts" {
   source      = "./Appserver"
-  region     = var.region[var.uf_region]
-  amis = var.amis[var.region[var.uf_region]]
+  availability_zone     = var.region[var.uf_region]
+  image_id = var.amis[var.region[var.uf_region]]
+  instance_name = "carts"
 }
 
 # Create a AWS instance template for database server, using module
 module "database" {
   source      = "./Database"
-  region     = var.region[var.uf_region]
-  amis = var.amis[var.region[var.uf_region]]
+  availability_zone     = var.region[var.uf_region]
+  image_id = var.amis[var.region[var.uf_region]]
+  instance_name = "database"
 }
 
 
