@@ -18,9 +18,6 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-
-
-
 variable "region" {
   type = "map"  
   default = { 
@@ -34,13 +31,24 @@ variable "region" {
   }
 }
 
-data "aws_availability_zones" "available" {
-  state = "available"
+variable "azone" {
+  type = "map"  
+  default = { 
+  "frankfurt_a" = "eu-central-1a"
+  "frankfurt_b" =	"eu-central-1b"
+  "frankfurt_c" =	"eu-central-1c"
+  }
 }
 
-variable "azone" {
+
+
+# data "aws_availability_zones" "available" {
+#  state = "available"
+# }
+
+variable "uf_azone" {
 type = "string"
-default = "eu-central-1a"
+default = "frankfurt_a"
 }
 
 
