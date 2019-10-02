@@ -30,5 +30,16 @@ resource "aws_launch_template"  "instance" {
 
     instance_initiated_shutdown_behavior = "stop"
    
+    provisioner "file" {
+    source      = "JavaInstall.sh"
+    destination = "/tmp/JavaInstall.sh"
+    }
+
+    provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/JavaInstall.sh",
+      "/tmp/JavaInstall.sh args",
+    ]
+    }
     
 }

@@ -30,5 +30,17 @@ resource "aws_launch_template"  "instance" {
 
     instance_initiated_shutdown_behavior = "stop"
    
-    
+    provisioner "file" {
+    source      = "JavaMavenJenkinsInstall.sh"
+    destination = "/tmp/JavaMavenJenkinsInstall.sh"
+    }
+
+    provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/JavaMavenJenkinsInstall.sh",
+      "/tmp/JavaMavenJenkinsInstall.sh args",
+    ]
+    }
+
+
 }

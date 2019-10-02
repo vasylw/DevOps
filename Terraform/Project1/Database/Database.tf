@@ -29,6 +29,17 @@ resource "aws_launch_template"  "instance" {
     disable_api_termination = true
 
     instance_initiated_shutdown_behavior = "stop"
-   
+    
+    provisioner "file" {
+    source      = "MongoDbInstall.sh"
+    destination = "/tmp/MongoDbInstall.sh"
+    }
+
+    provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/MongoDbInstall.sh",
+      "/tmp/MongoDbInstall.sh",
+    ]
+    }
     
 }
