@@ -14,10 +14,11 @@ resource "aws_launch_template"  "instance" {
             associate_public_ip_address = true
             delete_on_termination = true
             description = "Primary network interface"
-            subnet_id = "subnet-214a766a"
     }
-
+    
     image_id = var.image_id
+    
+    instance_type = var.instance_type
 
     key_name = "EC2_Linux_CI_Server"
 

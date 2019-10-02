@@ -13,6 +13,12 @@ variable "uf_region" {
   default = "frankfurt"
 }
 
+variable "instance_type" {
+  type = "string"
+  default = "t2.micro"
+}
+
+
 
 
 variable "region" {
@@ -27,6 +33,17 @@ variable "region" {
   "ireland" = "eu-west-1"
   }
 }
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+variable "azone" {
+type = "string"
+default = "eu-central-1a"
+}
+
+
 
 variable "amis" {
   type = "map"
