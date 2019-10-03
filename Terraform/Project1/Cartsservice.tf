@@ -4,6 +4,80 @@ provider "aws" {
   region     = var.region[var.uf_region]
 }
 
+# Create security grops for CI_server, Application_server and database
+resource "aws_security_group" "jenkins_sg" {
+  name        = "allow_22_8080"
+  description = "Allow 22_8080 port inbound traffic"
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = 0.0.0.0/0
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = 0.0.0.0/0
+  }
+
+  tags = {
+    Name = "allow_all_to_jenkins"
+  }
+}
+
+resource "aws_security_group" "carts_sg" {
+  name        = "allow_22_8081"
+  description = "Allow 22_8081 port inbound traffic"
+
+  ingress {
+    from_port   = 8081
+    to_port     = 8081
+    protocol    = "tcp"
+    cidr_blocks = 0.0.0.0/0
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = 0.0.0.0/0
+  }
+
+  tags = {
+    Name = "allow_all_to_carts"
+  }
+}
+
+resource "aws_security_group" "database_sg" {
+  name        = "allow_22_27017"
+  description = "Allow 22_27017 port inbound traffic"
+
+  ingress {
+    from_port   = 27017
+    to_port     = 27017
+    protocol    = "tcp"
+    cidr_blocks = var.subnet
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = var.subnet
+  }
+
+  tags = {
+    Name = "allow_local_to_database"
+  }
+}
+
+
+
+
+
 # Create a AWS instance template for CI server, using module
 module "jenkins" {
   source      = "./Jenkins"

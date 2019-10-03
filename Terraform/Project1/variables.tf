@@ -40,17 +40,10 @@ variable "azone" {
   }
 }
 
-
-
-# data "aws_availability_zones" "available" {
-#  state = "available"
-# }
-
 variable "uf_azone" {
 type = "string"
 default = "frankfurt_a"
 }
-
 
 
 variable "amis" {
@@ -65,4 +58,10 @@ variable "amis" {
       "eu-central-1" = "ami-0ac05733838eabc06"
   }
 }
+
+variable "subnet" {
+ type = "string"
+ default = "172.31.0.0/16"
+}
+
 
