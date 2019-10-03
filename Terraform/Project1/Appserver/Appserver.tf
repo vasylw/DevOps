@@ -14,11 +14,7 @@ resource "aws_launch_template"  "instance" {
       associate_public_ip_address = true
       delete_on_termination = true
       description = "Primary network interface"
-      groups = ["carts_sg"]
-      private_ip_addresses {
-        primary = "true"
-        private_ip_address = "172.31.50.102"
-      }
+      
     }
     
     image_id = var.image_id
@@ -27,7 +23,7 @@ resource "aws_launch_template"  "instance" {
 
     key_name = "EC2_Linux_CI_Server"
 
-    user_data = "TUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYXJ5PSI9PU1ZQk9VTkRBUlk9PSIKLS09PU1ZQk9VTkRBUlk9PQpDb250ZW50LVR5cGU6IHRleHQvY2xvdWQtY29uZmlnOyBjaGFyc2V0PSJ1cy1hc2NpaSIKCnJ1bmNtZDoKLSBzdWRvIGFwdCAteSB1cGRhdGUKLSBzdWRvIGFwdCAteSBpbnN0YWxsIG9wZW5qZGstOC1qZGsKLSBzdWRvIHVmdyBhbGxvdyA4MDgxCgotLT09TVlCT1VOREFSWT09LS0="
+    user_data = "TUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYXJ5PSI9PU1ZQk9VTkRBUlk9PSIKLS09PU1ZQk9VTkRBUlk9PQpDb250ZW50LVR5cGU6IHRleHQvY2xvdWQtY29uZmlnOyBjaGFyc2V0PSJ1cy1hc2NpaSIKCnJ1bmNtZDoKLSBzdWRvIGFwdCAteSB1cGRhdGUKLSBzdWRvIGFwdCAteSBpbnN0YWxsIG9wZW5qZGstOC1qZGsKLSBzdWRvIHVmdyBhbGxvdyA4MDgxCi0gc3VkbyBob3N0bmFtZWN0bCAteSBzZXQtaG9zdG5hbWUgY2FydHMubG9jYWxkb21haW4KLS09PU1ZQk9VTkRBUlk9PS0t"
 
     monitoring  { enabled = false }
 
@@ -36,17 +32,5 @@ resource "aws_launch_template"  "instance" {
     disable_api_termination = true
 
     instance_initiated_shutdown_behavior = "stop"
-   
-    provisioner "file" {
-    source      = "JavaInstall.sh"
-    destination = "/tmp/JavaInstall.sh"
-    }
-
-    provisioner "remote-exec" {
-    inline = [
-      "chmod +x /tmp/JavaInstall.sh",
-      "/tmp/JavaInstall.sh args",
-    ]
-    }
-    
+          
 }

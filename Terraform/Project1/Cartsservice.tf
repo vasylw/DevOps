@@ -6,21 +6,21 @@ provider "aws" {
 
 # Create security grops for CI_server, Application_server and database
 resource "aws_security_group" "jenkins_sg" {
-  name        = "allow_22_8080"
+  name        = "jenkins_sg"
   description = "Allow 22_8080 port inbound traffic"
 
   ingress {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = 0.0.0.0/0
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = 0.0.0.0/0
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -29,21 +29,21 @@ resource "aws_security_group" "jenkins_sg" {
 }
 
 resource "aws_security_group" "carts_sg" {
-  name        = "allow_22_8081"
+  name        = "carts_sg"
   description = "Allow 22_8081 port inbound traffic"
 
   ingress {
     from_port   = 8081
     to_port     = 8081
     protocol    = "tcp"
-    cidr_blocks = 0.0.0.0/0
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = 0.0.0.0/0
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -52,21 +52,21 @@ resource "aws_security_group" "carts_sg" {
 }
 
 resource "aws_security_group" "database_sg" {
-  name        = "allow_22_27017"
+  name        = "database_sg"
   description = "Allow 22_27017 port inbound traffic"
 
   ingress {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
-    cidr_blocks = var.subnet
+    cidr_blocks = [var.subnet]
   }
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = var.subnet
+    cidr_blocks = [var.subnet]
   }
 
   tags = {
@@ -108,7 +108,7 @@ module "database" {
 
 
 
-# Launch instances from templates
+# Launch instance from template
 resource "aws_autoscaling_group" "ag_jenkins" {
   availability_zones     = [var.azone[var.uf_azone]]
   desired_capacity   = 1
@@ -116,15 +116,15 @@ resource "aws_autoscaling_group" "ag_jenkins" {
   min_size           = 1
   launch_template {
     id      = "${module.jenkins.launch_template_ids}"
-  }
+  }  
   tag {
     key                 = "instance_name"
     value               = "jenkins"
     propagate_at_launch = true
   }
-}
+  }
 
-# Launch instances from templates
+# Launch instance from template
 resource "aws_autoscaling_group" "ag_carts" {
   availability_zones     = [var.azone[var.uf_azone]]
   desired_capacity   = 1
@@ -133,7 +133,7 @@ resource "aws_autoscaling_group" "ag_carts" {
 
   launch_template {
     id      = "${module.carts.launch_template_ids}"
-    }
+  }  
   tag {
     key                 = "instance_name"
     value               = "carts"
@@ -141,7 +141,7 @@ resource "aws_autoscaling_group" "ag_carts" {
   }
 }
 
-# Launch instances from templates
+# Launch instance from template
 resource "aws_autoscaling_group" "ag_database" {
   availability_zones     = [var.azone[var.uf_azone]]
   desired_capacity   = 1
@@ -150,7 +150,7 @@ resource "aws_autoscaling_group" "ag_database" {
 
   launch_template {
     id      = "${module.database.launch_template_ids}"
-    }
+  }
   tag {
     key                 = "instance_name"
     value               = "database"
