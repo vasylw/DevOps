@@ -14,7 +14,5 @@ runcmd:
 - sudo apt -y update
 - sudo apt -y install jenkins
 - sudo ufw allow 8080
-- sudo hostnamectl -y set-hostname jenkins.localdomain
-
 
 --==MYBOUNDARY==--

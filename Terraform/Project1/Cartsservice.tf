@@ -5,6 +5,7 @@ provider "aws" {
 }
 
 # Create security grops for CI_server, Application_server and database
+
 resource "aws_security_group" "jenkins_sg" {
   name        = "jenkins_sg"
   description = "Allow 22_8080 port inbound traffic"
@@ -157,8 +158,6 @@ resource "aws_autoscaling_group" "ag_database" {
     propagate_at_launch = true
   }
 }
-
-
 
 
 

@@ -13,5 +13,5 @@ runcmd:
 - sudo apt-get -y install -y mongodb-org
 - sudo ufw allow 27017
 - sudo service mongod start
-- sudo hostnamectl -y set-hostname database.localdomain
+
 --==MYBOUNDARY==--

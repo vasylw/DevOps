@@ -7,5 +7,5 @@ runcmd:
 - sudo apt -y update
 - sudo apt -y install openjdk-8-jdk
 - sudo ufw allow 8081
-- sudo hostnamectl -y set-hostname carts.localdomain
+
 --==MYBOUNDARY==--
