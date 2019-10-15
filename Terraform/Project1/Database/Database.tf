@@ -13,7 +13,6 @@ resource "aws_launch_template"  "instance" {
     network_interfaces {
             associate_public_ip_address = true
             delete_on_termination = true
-            private_ip_address = "172.31.1.103"
             description = "Primary network interface"
     }
     

@@ -1,0 +1,1 @@
+ docker run --name mariadb -p 8080:8080 -v /var/db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=3421352 -d mariadb

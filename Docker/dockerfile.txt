@@ -1,0 +1,13 @@
+FROM ubuntu:18.04
+MAINTAINER Vasylw <vasylw@gmail.com>
+RUN apt-get update
+RUN apt-get install apache2
+EXPOSE 80
+RUN apt-get -y install vim php-cli  php-intl php-xmlrpc php-soap php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath
+
+
+FROM ubuntu:18.04
+MAINTAINER Vasylw <vasylw@gmail.com>
+RUN apt-get update
+RUN apt-get install -y mariadb-server
+EXPOSE 8080, 3306
