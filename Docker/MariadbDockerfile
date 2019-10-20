@@ -1,0 +1,5 @@
+FROM ubuntu:18.04
+MAINTAINER Vasylw <vasylw@gmail.com>
+RUN apt-get update
+RUN apt-get install -y mariadb-server
+EXPOSE 8080 3306
