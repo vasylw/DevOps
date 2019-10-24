@@ -1,7 +1,7 @@
 # Cloud provider setting
 provider "aws" {
   shared_credentials_file = "/var/lib/jenkins/workspace/.aws/credentials"
-  region     = var.region
+  region     = var.region[var.uf_region]
   profile = "default"
 }
 
@@ -54,9 +54,6 @@ resource "aws_security_group" "database_sg" {
 }
 
 
-
-
-
 # Create a AWS instance for Application server, using module
 module "carts_app" {
   source      = "./Appserver"
@@ -64,17 +61,9 @@ module "carts_app" {
   image_id = var.amis[var.region[var.uf_region]]
   instance_name = "carts"
   instance_type = var.instance_type
+  sg_carts_id = "${aws_security_group.carts_sg.id}"
 }
 
-provisioner "local-exec" {
-    command = "echo ${aws_instance.carts_app.public_ip} > public_ip_carts_app.txt"
-  }
-}
-
-provisioner "local-exec" {
-    command = "echo ${aws_instance.carts_app.private_ip} > private_ip_carts_app.txt"
-  }
-}
 
 # Create a AWS instance for database server, using module
 module "database" {
@@ -83,9 +72,6 @@ module "database" {
   image_id = var.amis[var.region[var.uf_region]]
   instance_name = "database"
   instance_type = var.instance_type
+  sg_db_id = "${aws_security_group.database_sg.id}"
 }
 
-provisioner "local-exec" {
-    command = "echo ${aws_instance.database.private_ip} > private_ip_database.txt"
-  }
-}

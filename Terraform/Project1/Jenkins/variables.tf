@@ -14,6 +14,3 @@ variable "instance_type" {
   type = "string"
 }
 
-output "launch_template_ids" {
-  value = aws_launch_template.instance.id
-}
