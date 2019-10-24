@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+   stages {
+
+    stage('1. Add new terraform code to Workspace'){
+      steps {
+        echo "Pull down any existing Terraform code for this pipeline's Workspace..."
+         sh """
+              #Clear old Workspace directory - VERY important to make sure no old Terraform code or config files are hanging around!
+              rm -rf terraform
+              #Pull down current Workspace code
+              git clone https://github.com/vasylw/terraform  
+            """
+        
+        echo "Add a new Terraform file for this particular pipeline build..."
+        script {
+          tfCode = """
+            resource "aws_instance" "Proba1" { 
+              ami           = "ami-40d28157"  #Ubuntu Server 16.04 LTS HVM SSD
+              instance_type = "t2.micro" 
+            } 
+          """
+        }
+        
+        }
+      }
+    
+
+    stage('2. Run the Workspace'){
+      environment {
+          REPO_NAME = "terraform"
+      }
+      steps {
+        /* 
+        Note: I originally had the TFE token stored in Jenkins as a "Secret text" credential, but that seemed to corrupt 
+        the contents of the string (auth failed), so I recreated it as a "Username with password" credential. Original line:
+        withCredentials([string(credentialsId: tfeCredentials, variable: 'TOKEN')]) {
+        */
+        
+          sh '''
+            cd $REPO_NAME       #This gets cleared in Stage 1, which is required for terraform init to run properly
+            terraform init 
+            terraform apply -input=false -auto-approve
+          '''
+        }
+    }
+
+    stage('3. Do integration or deployment testing'){
+      steps {
+        echo "Do whatever integration or deployment testing you need to do..."
+      }
+    }
+
+    
+      
+  } //stages
+} //pipeline
