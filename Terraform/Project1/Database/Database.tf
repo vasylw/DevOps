@@ -1,5 +1,5 @@
 
-resource "aws_launch_template"  "instance" {
+resource "aws_instance"  "database" {
     name = "${var.instance_name}"
     block_device_mappings {
             device_name = "/dev/sda1"
