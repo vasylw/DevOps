@@ -61,7 +61,7 @@ module "carts_app" {
   image_id = var.amis[var.region[var.uf_region]]
   instance_name = "carts"
   instance_type = var.instance_type
-  sg_carts_id = "${aws_security_group.carts_sg.id}"
+  sg_carts_id = aws_security_group.carts_sg.id
 }
 
 
@@ -72,6 +72,6 @@ module "database" {
   image_id = var.amis[var.region[var.uf_region]]
   instance_name = "database"
   instance_type = var.instance_type
-  sg_db_id = "${aws_security_group.database_sg.id}"
+  sg_db_id = aws_security_group.database_sg.id
 }
 
