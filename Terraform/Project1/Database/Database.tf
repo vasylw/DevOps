@@ -4,7 +4,6 @@ resource "aws_instance"  "database" {
     availability_zone = var.availability_zone   
         
     root_block_device {
-      volume_type = "standart"
       volume_size = "10"
     }
     
