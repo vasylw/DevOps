@@ -17,13 +17,13 @@ resource "aws_instance"  "carts_app" {
 
     monitoring  = "false"
 
-    disable_api_termination = true
+    disable_api_termination = false
 
     instance_initiated_shutdown_behavior = "stop"
 
     tags = { Name = var.instance_name }
 
-    security_groups = [var.sg_carts_id]
+    vpc_security_group_ids = [var.sg_carts_id]
     
           
 provisioner "local-exec" {

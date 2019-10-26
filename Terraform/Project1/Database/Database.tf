@@ -17,11 +17,11 @@ resource "aws_instance"  "database" {
 
     monitoring  = "false"
 
-    disable_api_termination = true
+    disable_api_termination = false
 
     instance_initiated_shutdown_behavior = "stop"
 
-    security_groups = [var.sg_db_id]
+    vpc_security_group_ids = [var.sg_db_id]
 
     tags = { Name = var.instance_name }
     
