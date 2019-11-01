@@ -31,7 +31,7 @@ provisioner "local-exec" {
   }
 
 provisioner "local-exec" {
-    command = "echo [database_server] > /tmp/database_server"
+    command = "echo "[database_server]" > /tmp/database_server"
     
   }
 
