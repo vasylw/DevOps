@@ -31,12 +31,12 @@ provisioner "local-exec" {
   }
 
 provisioner "local-exec" {
-    command = "echo "[database_server]" > /tmp/database_server"
+    command = "echo "[database_server]" > /var/lib/jenkins/workspace/database_server"
     
   }
 
 provisioner "local-exec" {
-    command = "echo ${aws_instance.database.private_ip} > /tmp/database_server"
+    command = "echo ${aws_instance.database.private_ip} > /var/lib/jenkins/workspace/database_server"
   }
 
 
