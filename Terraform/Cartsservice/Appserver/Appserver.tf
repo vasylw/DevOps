@@ -35,11 +35,11 @@ provisioner "local-exec" {
   }
 
 provisioner "local-exec" {
-    command = "echo "[carts_app_server]" > /var/lib/jenkins/workspace/carts_app_server"
+    command = "echo "[carts_app_server]" > carts_app_server"
   }
 
 provisioner "local-exec" {
-    command = "echo ${aws_instance.carts_app.private_ip} > /var/lib/jenkins/workspace/carts_app_server"
+    command = "echo ${aws_instance.carts_app.private_ip} > carts_app_server"
   }
 
 }
